@@ -2,6 +2,7 @@ from tokenizer import tokenize
 from parser import parse
 from transformer import transform
 from generator import generate_code
+from optimizer import optimize
 
 def compile_code(input_code):
     print(f"--- Original Code ---\n{input_code}\n")
@@ -26,8 +27,14 @@ def compile_code(input_code):
     print(json.dumps(new_ast, indent=2))
     print()
     
-    # 4. Code Generation
-    output_code = generate_code(new_ast)
+    # 4. Optimization
+    optimized_ast = optimize(new_ast)
+    print("--- Optimized AST ---")
+    print(json.dumps(optimized_ast, indent=2))
+    print()
+    
+    # 5. Code Generation
+    output_code = generate_code(optimized_ast)
     print(f"--- Output Code ---\n{output_code}\n")
     
     return output_code

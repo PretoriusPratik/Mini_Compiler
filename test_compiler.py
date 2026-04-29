@@ -10,10 +10,10 @@ class TestMiniCompiler(unittest.TestCase):
     def test_basic_math(self):
         input_code = "const result = 10 + 20 * 5;"
         output_code = compile_code(input_code)
-        # Note: Our simple string generation will output exactly as it was structured
-        # 20 * 5 happens first based on precedence parser, but parenthesis aren't generated 
-        # unless we explicitly add them. It will still evaluate correctly in JS.
-        self.assertEqual(output_code.strip(), "var result = 10 + 20 * 5;")
+        # Note: With the optimizer added, constant folding will evaluate 
+        # 10 + 20 * 5 at compile time. 20 * 5 happens first, then + 10.
+        # The output is 110.
+        self.assertEqual(output_code.strip(), "var result = 110;")
 
     def test_console_log(self):
         input_code = 'console.log("hello", 42);'
